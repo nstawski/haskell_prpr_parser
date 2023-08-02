@@ -1,0 +1,69 @@
+cabal-version:       >=1.10
+name:                Parser
+version:             1
+license:             BSD3
+maintainer:          me@ninastawski.com
+build-type:          Simple
+
+library
+  exposed-modules:   Parser, Types
+  hs-source-dirs:    .
+  build-depends:     base >=4.17 && <5
+                   , megaparsec
+                   , mtl
+                   , parser-combinators
+                   , text
+                   , template-haskell
+                   , Cabal
+                   , split
+                   , haskeline
+                   , transformers
+                   , unordered-containers
+                   , parser-combinators
+                   , Cabal-syntax
+  default-language:  Haskell2010
+
+executable Parser
+  main-is:           Main.hs
+  hs-source-dirs:    .
+  other-modules:     Parser, Types
+  build-depends:     base >=4.17 && <5
+                   , Parser
+                   , megaparsec
+                   , mtl
+                   , parser-combinators
+                   , text
+                   , template-haskell
+                   , Cabal
+                   , split
+                   , haskeline
+                   , transformers
+                   , unordered-containers
+                   , parser-combinators
+                   , Cabal-syntax
+  default-language:  Haskell2010
+
+test-suite tests
+  type:              exitcode-stdio-1.0
+  main-is:           Tests.hs
+  hs-source-dirs:    .
+  other-modules:     Parser, Types
+  build-depends:     base >=4.17 && <5
+                   , void
+                   , megaparsec
+                   , QuickCheck
+                   , HUnit
+                   , Parser
+                   , megaparsec
+                   , mtl
+                   , parser-combinators
+                   , text
+                   , template-haskell
+                   , Cabal
+                   , split
+                   , haskeline
+                   , transformers
+                   , unordered-containers
+                   , parser-combinators
+                   , Cabal-syntax
+  default-language:  Haskell2010

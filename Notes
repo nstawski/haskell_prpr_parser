@@ -1,0 +1,17 @@
+1. Issues with installing packages, megaparsec and parsec. Installed xcode-tools, didn't help. Tried using Cabal repl, still didn't help.
+
+
+
+
+• Couldn't match type ‘Text’ with ‘[Char]’
+      Expected: Tokens Text
+        Actual: String
+
+
+This error message indicates that the string function is expecting Text but is receiving a String ([Char]).
+
+From Megaparsec 7 onwards, the string function from Text.Megaparsec.Char operates on Text rather than [Char]. If you are using a literal string like "PLATE", it's interpreted as a list of characters (i.e., String), not Text.
+
+If you want to continue using Text, you need to use the OverloadedStrings language extension, which allows string literals to be interpreted as other string-like types, including Text. 
+
+
