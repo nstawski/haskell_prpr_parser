@@ -93,12 +93,20 @@ module Types where
         | RecipeValue Recipe
         | SpreadValue SpreadConfig
         | TransferValue TransferConfig
+        -- | HumanCommentValue Comment
+        -- | RobotMessageValue Comment
+        -- | IOMessageValue Comment
         deriving (Show, Eq)
 
     data Action = MakeAction Make
         | SpreadAction Spread
         | TransferAction Transfer
         deriving (Show, Eq)
+
+    -- data Comment = HumanComment String
+    --     | RobotMessage String
+    --     | IOMessage String
+    --     deriving (Show, Eq)
     
     data ParsedLine = Method TransferMethod
         | WellInfo (Char, [Int])
@@ -108,4 +116,7 @@ module Types where
         | LocationLine Location
         | SpreadConfigLine Action
         | TransferConfigLine Action
+        -- | HumanCommentLine Comment
+        -- | RobotMessageLine Comment
+        -- | IOMessageLine Comment
         deriving (Show, Eq)

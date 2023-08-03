@@ -11,7 +11,6 @@ import System.IO (hFlush, stdout)
 import System.Exit (exitSuccess)
 import Control.Monad (unless, void)
 import Data.Maybe (mapMaybe)
-import Control.Monad.Trans.Except (Except)
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import qualified Data.HashMap.Strict as H
@@ -38,8 +37,12 @@ eval (ComponentConfigLine v@(ComponentValue (Component name _ _))) env =
 eval (VolumeConfigLine v@(VolumeValue (Volume name _))) env = (v, H.insert name v env)
 eval (PlateConfigLine v@(PlateValue (PlateConfig name _ _))) env = (v, H.insert name v env)
 
--- Eval for SPREAD command
+-- -- Comments do not modify the environment
+-- eval (HumanCommentLine c@(HumanComment comment)) env = (HumanCommentValue comment, env)
+-- eval (RobotMessageLine m@(RobotMessage message)) env = (RobotMessageValue message, env)
+-- eval (IOMessageLine m@(IOMessage message)) env = (IOMessageValue message, env)
 
+-- Eval for SPREAD command
 eval (SpreadConfigLine a@(SpreadAction (Spread scomponent sdestination svolume smethod soptions))) env =
     let component = H.lookup scomponent env
         volume = H.lookup svolume env
@@ -58,13 +61,6 @@ eval (TransferConfigLine a@(TransferAction (Transfer tsource tdestination tvolum
                   TransferValue (TransferConfig tsource tdestination volume tmethod toptions)
               _ -> error "Volume not found in environment"
     in (v, env)
-
--- -- Symbol evaluates to the value bound to it
--- eval (Symbol sym) = do
---   env <- get
---   case lookup sym env of
---     Just val -> return val
---     Nothing  -> throwError $ UndefSymbolError sym
 
 loop :: Show a => Parser a -> IO ()
 loop parser = do

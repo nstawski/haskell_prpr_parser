@@ -3,13 +3,11 @@ module Parser where
 
 import Types
 
-import Control.Monad (void)
 import Data.Void
 import Data.Text (Text, pack, unpack)
 import Data.Maybe (fromMaybe)
 import Text.Megaparsec 
 import Text.Megaparsec.Char
-import Control.Monad.Combinators.Expr
 import Data.Char (ord)
 import Text.Megaparsec.Char.Lexer (decimal)
 import Distribution.Compat.CharParsing (spaces)
@@ -131,6 +129,27 @@ transferConfig = do
     let newSpread = TransferAction (Transfer source destination volumeName methodValue optionsValue)
     return newSpread
 
+-- humanComment :: Parser Comment
+-- humanComment = do
+--   _ <- char '#'
+--   some spaceChar
+--   comment <- manyTill anySingle newline
+--   return HumanComment comment
+
+-- robotMessage :: Parser Comment
+-- robotMessage = do
+--   _ <- char '%'
+--   some spaceChar
+--   message <- manyTill anySingle newline
+--   return RobotMessage message
+
+-- ioMessage :: Parser Comment
+-- ioMessage = do
+--   _ <- string "MESSAGE"
+--   some spaceChar
+--   message <- manyTill anySingle newline
+--   return IOMessage message
+
 lineParser :: Parser ParsedLine
 lineParser = choice [ try $ Method <$> method
     -- , try $ PlateConfigLine <$> plateConfig
@@ -139,6 +158,9 @@ lineParser = choice [ try $ Method <$> method
     , try $ VolumeConfigLine <$> volumeConfig
     , try $ SpreadConfigLine <$> spreadConfig
     , try $ TransferConfigLine <$> transferConfig
+    -- , try $ HumanCommentLine <$> humanComment
+    -- , try $ RobotMessageLine <$> robotMessage
+    -- , try $ IOMessageLine <$> ioMessage
     ]
 
 parseFromString :: Parser a -> Text -> Parser a
